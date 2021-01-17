@@ -23,6 +23,19 @@
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="/assets/js/index.js"></script>
+  <script type="text/javascript">
+   $(".btn").on("click", function (event) {
+            event.preventDefault();
+            var newReserve = [];
+
+            //console.log(newReserve);
+            $.post("./public/notes", newReserve).then(function (data) {
+                if (data === "./public/notes") { alert("notes added!"); }
+                else {
+                    alert("try again");
+                }
+            });
+    });</script>
 </body>
 
 </html>
