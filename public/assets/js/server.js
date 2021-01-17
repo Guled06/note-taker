@@ -7,13 +7,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 const fs = require("fs");
 
-app.get('*', function(req,res) {
-    res.sendFile(path.join(__dirname, "index.html"));
+app.get("./*", function(req,res) {
+    res.sendFile(path.join(__dirname, "./index.html"));
 });
 
 // TABLES VIEW
-app.get("/notes", function(req, res) {
-    res.sendFile(path.join(__dirname, "notes.html"));
+app.get("./notes", function(req, res) {
+    res.sendFile(path.join(__dirname, "./notes.html"));
 });
 
 
@@ -52,6 +52,6 @@ function neWdb() {
 }
 
 app.listen(PORT, function() {
-    console.log("App listening on PORT: " + PORT);
+    console.log("Listening on PORT: " + PORT);
 })
 
