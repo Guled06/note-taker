@@ -42,12 +42,16 @@ app.get("/api/notes/:id", function(req,res) {
     res.json(notes[req.params.id]);
 });
 
+
+app.delete("/api/notes/:id", function(req, res) {
+
+});
+
+    
 app.get("*", function(req,res) {
     res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 app.listen(PORT, function() {
     console.log("Listening on PORT: " + PORT);
-})
-
-
+});
