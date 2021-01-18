@@ -3,7 +3,8 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 const fs = require("fs");
 
 // TABLES VIEW
@@ -11,22 +12,29 @@ app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
 
-app.get("*", function(req,res) {
-    res.sendFile(path.join(__dirname, "./public/index.html"));
-});
-
 app.get("/api/notes", function(req, res) {
     // Read the db.json file and return all saved notes as JSON.
-    res.json(notes);
+    fs.readFile('db/db.json', (err, data) => {
+        if (err) throw err;
+        let notes = JSON.parse(data);
+        res.json(notes);
+      });
 });
 
 app.post("/api/notes", function(req, res) {
     // Should receive a new note to save on the request body, add it to the db.json file, and then return the new note to the client.
 
-    let newNote = req.body;
-    notes.push(newNote);
-    neWdb();
-    return console.log("A New Note Has Been Added: " + newNote);
+    fs.readFile('db/db.json', (err, data) => {
+        if (err) throw err;
+        let newNote = req.body;
+        console.log(newNote);
+        let notes = JSON.parse(data);
+        notes.push(newNote);
+        fs.writeFile("db/db.json", JSON.stringify(notes),err => {
+            if (err) throw err;
+            return res.json(notes);
+        });
+      });
 });
 
 app.get("/api/notes/:id", function(req,res) {
@@ -34,21 +42,12 @@ app.get("/api/notes/:id", function(req,res) {
     res.json(notes[req.params.id]);
 });
 
-app.delete("/api/notes/:id", function(req, res) {
-    notes.splice(req.params.id);
-    neWdb();
-    console.log("Deleted note with id " + req.params.id);
+app.get("*", function(req,res) {
+    res.sendFile(path.join(__dirname, "./public/index.html"));
 });
-
-
-
-function neWdb() {
-    fs.writeFile("db/db.json",JSON.stringify(notes),err => {
-        if (err) throw err;
-        return true;
-    });
-}
 
 app.listen(PORT, function() {
     console.log("Listening on PORT: " + PORT);
 })
+
+

@@ -37,27 +37,6 @@
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="/assets/js/index.js"></script>
-  <script type="text/javascript"></script>
-  <script type="text/javascript">
-  
-  function getNotes() {
-
-$("note-textarea").empty();
-$.ajax({ url: "./public/index", method: "GET", }).then(function (tdata) {
-    //console.log(tdata);
-    for (let i = 0; i < tdata.length; i++) {
-        var itemobj =
-        ` <div class="col-8">
-        <input class="note-title" placeholder="Note Title" maxlength="28" type="text">
-        <textarea class="note-textarea" placeholder="Note Text"></textarea>
-      </div>`
-        $("note-textarea").append(itemobj);
-    }
-});
-}
-
-getNotes();
-</script>
 </body>
 
 </html>
