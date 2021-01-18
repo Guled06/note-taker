@@ -3,19 +3,17 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname));
+// app.use(express.urlencoded({ extended: true }));
 const fs = require("fs");
 
-app.get("./*", function(req,res) {
-    res.sendFile(path.join(__dirname, "./index.html"));
-});
-
 // TABLES VIEW
-app.get("./notes", function(req, res) {
-    res.sendFile(path.join(__dirname, "./notes.html"));
+app.get("/notes", function(req, res) {
+    res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
 
+app.get("*", function(req,res) {
+    res.sendFile(path.join(__dirname, "./public/index.html"));
+});
 
 app.get("/api/notes", function(req, res) {
     // Read the db.json file and return all saved notes as JSON.
@@ -28,7 +26,7 @@ app.post("/api/notes", function(req, res) {
     let newNote = req.body;
     notes.push(newNote);
     neWdb();
-    return console.log("A New Note Has Been Added: " + newNote.title);
+    return console.log("A New Note Has Been Added: " + newNote);
 });
 
 app.get("/api/notes/:id", function(req,res) {
@@ -37,7 +35,7 @@ app.get("/api/notes/:id", function(req,res) {
 });
 
 app.delete("/api/notes/:id", function(req, res) {
-    notes.splice(req.params.id, 1);
+    notes.splice(req.params.id);
     neWdb();
     console.log("Deleted note with id " + req.params.id);
 });
@@ -45,7 +43,7 @@ app.delete("/api/notes/:id", function(req, res) {
 
 
 function neWdb() {
-    fs.writeFile("db/db.json",JSON.stringify(notes,'\t'),err => {
+    fs.writeFile("db/db.json",JSON.stringify(notes),err => {
         if (err) throw err;
         return true;
     });
@@ -54,4 +52,3 @@ function neWdb() {
 app.listen(PORT, function() {
     console.log("Listening on PORT: " + PORT);
 })
-
