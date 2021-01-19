@@ -67,4 +67,5 @@ html, body {
   border-right: none;
   padding: 20px;
   cursor: pointer;
+  background-color: rgb(240, 225, 90);
 }
