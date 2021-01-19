@@ -4,13 +4,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static("public", {extensions: ["html"]}));
 const fs = require("fs");
 
-// TABLES VIEW
-app.get("/notes", function(req, res) {
-    res.sendFile(path.join(__dirname, "./public/notes.html"));
-});
 
 app.get("/api/notes", function(req, res) {
     // Read the db.json file and return all saved notes as JSON.
@@ -44,8 +40,13 @@ app.get("/api/notes/:id", function(req,res) {
 
 
 app.delete("/api/notes/:id", function(req, res) {
-
+    let id = req.params.id;
+    id.delete(id, (err) => {
+        if (err) return next(err);
+        res.send({ message: 'Deleted' });
+    });
 });
+
 
     
 app.get("*", function(req,res) {
