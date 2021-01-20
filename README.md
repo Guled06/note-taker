@@ -14,6 +14,8 @@
 
     As a user, this application will allow the user to write notes and save the notes. The user can add however many notes he/she wants. The user can also delete any notes the user has added. When the user saves his/her notes and refreshes the page or leaves the browswer, then returns to the note-taker app, the user's saved notes will still be visible/available. This app can also be used as a way for the user to keep track of his/her daily activities, if they choose to.
 
+    <img src="/images/note-taker1.png">
+
 
   ## License:
 
