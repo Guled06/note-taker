@@ -40,18 +40,22 @@ app.get("/api/notes/:id", function(req,res) {
 
 
 app.delete("/api/notes/:id", function(req, res) {
-
     fs.readFile('db/db.json', (err, data) => {
-        if (err) throw err;
-        let newNote = req.params.id;
+
         let notes = JSON.parse(data);
-        notesSaved = notesSaved.filter(fs.writeFile("db/db.json", JSON.stringify(newNote),err => {
+        let noteID = req.params.id;
+        let ID = 0;
+        console.log(`A note with ID ${noteID} has been deleted!`);
+        notes = notes.filter(allNote => allNote.id !== noteID);
+        for (allNote of notes) {
+            allNote.id = ID.toString();
+            ID++;
+        }
+        fs.writeFile("db/db.json", JSON.stringify(notes),err => {
             if (err) throw err;
-            return res.json(notes);
-        }));
-
+        res.json(notes);
+        });
     });
-
 });
 
     
